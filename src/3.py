@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
 import numpy as np
-import primes
+import util
 
 n = 600851475143
 
-S = primes.Sieve()
+S = util.Sieve()
 S.gen(int(np.sqrt(n)))
 
 f = 1

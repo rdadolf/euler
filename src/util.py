@@ -1,8 +1,8 @@
 import numpy as np
 
 class Sieve():
-  def __init__(self,upto=10):
-    self._upto = max(upto+1,10)
+  def __init__(self,upto=2):
+    self._upto = upto
     self._size = 3
     self._memo = np.zeros(self._size,dtype='int64')+1
     self._memo[0] = 0
@@ -12,9 +12,10 @@ class Sieve():
     self.gen(self._upto)
 
   def _alloc(self,upto):
-    diff = upto-self._size
-    self._memo = np.concatenate((self._memo, np.zeros(diff,dtype='int64')+1))
-    self._size = upto
+    if upto>self._size:
+      diff = upto-self._size
+      self._memo = np.concatenate((self._memo, np.zeros(diff,dtype='int64')+1))
+      self._size = upto
 
   def gen(self,upto):
     self._alloc(upto)
@@ -35,14 +36,29 @@ class Sieve():
       self.gen(n+1)
     return self._memo[n]
 
-def prime_factorization(n):
-  s=Sieve(n)
-  fs = []
-  for p in s.primes():
-    #print p,n,n%p
-    while n%p==0:
-      fs.append(p)
-      n = n/p
-      if n==1:
-        return fs
-  assert False, 'Ran out of primes?'
+  def prime_factorization(self,n):
+    self.gen(n) # get *at least* n
+    fs = []
+    ps = self.primes()
+    for p in ps[ps<=n]:
+      while n%p==0:
+        fs.append(p)
+        n = n/p
+        if n==1:
+          return fs
+    assert False, 'Ran out of primes to test'
+
+################################################################################
+
+def factors(n):
+  fs=[]
+  root_n=int(np.sqrt(n))
+  for i in xrange(1,root_n):
+    if n%i==0:
+      fs.append(i)
+      fs.append(n/i)
+  if root_n*root_n==n:
+    fs.append(root_n)
+  return fs
+
+
