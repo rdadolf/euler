@@ -51,9 +51,11 @@ class Sieve():
 ################################################################################
 
 def factors(n):
-  fs=[]
+  if(n<2):
+    return [1]
+  fs=[1,n]
   root_n=int(np.sqrt(n))
-  for i in xrange(1,root_n):
+  for i in xrange(2,root_n+1):
     if n%i==0:
       fs.append(i)
       fs.append(n/i)

@@ -8,6 +8,7 @@ sum_divs = np.zeros(10000,dtype='i64')
 # Compute all divisor sums
 for i in xrange(1,10000):
   sum_divs[i] = sum(util.factors(i))-i
+#print sum_divs[0:10]
 
 # Count all amicable numbers
 sum = 0
