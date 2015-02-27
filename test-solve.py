@@ -18,7 +18,7 @@ class Command(object):
 
   def run(self, timeout):
     def target():
-      self.process = sub.Popen(self.cmd, shell=True, stdout=sub.PIPE, stderr=sub.PIPE)
+      self.process = sub.Popen(self.cmd, shell=True, stdout=sub.PIPE, stderr=sub.PIPE, cwd='src')
       (out, err) = self.process.communicate()
       self.out = out.strip()
       self.err = err.strip()
@@ -31,7 +31,8 @@ class Command(object):
     return (self.out,self.err)
 
 def check_solution(k,v):
-  (guess,err) = Command(os.path.join('src',k)+'.py').run(timeout=60)
+  (guess,err) = Command(k+'.py').run(timeout=60)
+  #(guess,err) = Command(os.path.join('src',k)+'.py').run(timeout=60)
   if err!='':
     print 'Error:',err
   assert guess==v, 'Answer mismatch:\n\tguess:"%s"\n\tactual:"%s"'%(guess,v)

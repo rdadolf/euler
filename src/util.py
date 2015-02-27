@@ -54,11 +54,12 @@ def factors(n):
   if(n<2):
     return [1]
   fs=[1,n]
-  root_n=int(np.sqrt(n))
-  for i in xrange(2,root_n+1):
+  root_n=int(np.ceil(np.sqrt(n)))
+  for i in xrange(2,root_n):
     if n%i==0:
       fs.append(i)
-      fs.append(n/i)
+      if i!=n/i:
+        fs.append(n/i)
   if root_n*root_n==n:
     fs.append(root_n)
   return fs
