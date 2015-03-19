@@ -26,13 +26,15 @@ class Sieve():
       if self._memo[f]:
         #print 'Elimintating %d to %d by %d'%(f*2,self._size,f)
         self._memo[np.arange(f*2,self._size,f)] = 0
+        # FIXME: this re-does a lot of work when incrementally increasing the
+        #   size of the sieve (low numbers are re-crossed out every time)
         self._last_factor = f
 
   def primes(self):
     return np.nonzero(self._memo)[0]
 
   def is_prime(self,n):
-    if n>self._size:
+    if n>=self._size:
       self.gen(n+1)
     return self._memo[n]
 
